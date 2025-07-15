@@ -1,6 +1,7 @@
-import { useAuth } from "../auth/AuthContext";
+//import { useAuth } from "../auth/AuthContext";
 import useQuery from "../api/useQuery";
-import useMutation from "../api/useMutation";
+import { Link } from "react-router";
+//import useMutation from "../api/useMutation";
 
 /** Shows a list of activities. */
 export default function ActivityList() {
@@ -11,18 +12,21 @@ export default function ActivityList() {
   } = useQuery("/activities", "activities");
 
   if (loading || !activities) return <p>Loading...</p>;
-  if (error) return <p>Sorry! {error}</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <ul>
       {activities.map((activity) => (
-        <ActivityListItem key={activity.id} activity={activity} />
+        <li key={activity.id}>
+          <Link to={`/activities/${activity.id}`}>{activity.name}</Link>
+        </li>
       ))}
     </ul>
   );
 }
 
-/** Shows a single activity. Logged-in users will also see a delete button. */
+/*
+/** Shows a single activity. Logged-in users will also see a delete button. 
 function ActivityListItem({ activity }) {
   const { token } = useAuth();
   const {
@@ -42,3 +46,4 @@ function ActivityListItem({ activity }) {
     </li>
   );
 }
+*/
