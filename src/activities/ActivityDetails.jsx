@@ -1,4 +1,3 @@
-// New component for pt1#6
 import { useParams, useNavigate } from "react-router";
 import useQuery from "../api/useQuery";
 import useMutation from "../api/useMutation";
@@ -22,8 +21,10 @@ export default function ActivityDetails() {
   } = useMutation("DELETE", `/activities/${activityId}`, ["activities"]);
 
   const handleDelete = async () => {
-    await deleteActivity();
-    navigate("/");
+    try {
+      await deleteActivity();
+      navigate("/");
+    } catch {}
   };
 
   if (loading || !activity) return <p>Loading...</p>;
@@ -36,14 +37,16 @@ export default function ActivityDetails() {
       <p>
         <strong>Creator:</strong> {activity.creatorName}
       </p>
+
       {token && (
-        <button onClick={handleDelete}>
-          {deleting
-            ? "Deleting..."
-            : deleteError
-            ? deleteError
-            : "Delete Activity"}
-        </button>
+        <>
+          <button onClick={handleDelete}>
+            {deleting ? "Deleting..." : "Delete Activity"}
+          </button>
+          {deleteError && (
+            <p style={{ color: "red", marginTop: "0.5em" }}>{deleteError}</p>
+          )}
+        </>
       )}
     </>
   );

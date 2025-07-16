@@ -9,9 +9,9 @@ export default function Register() {
 
   const [error, setError] = useState(null);
 
-  const tryRegister = async (error) => {
+  const tryRegister = async (e) => {
     // added
-    error.preventDefault();
+    e.preventDefault();
     const formData = new FormData(e.target);
     //^^^
 
@@ -20,8 +20,8 @@ export default function Register() {
     try {
       await register({ username, password });
       navigate("/");
-    } catch (error) {
-      setError(error.message);
+    } catch (e) {
+      setError(e.message);
     }
   };
 
@@ -31,16 +31,18 @@ export default function Register() {
       <form onSubmit={tryRegister}>
         <label>
           Username
-          <input type="text" name="username" required />
+          <input type="text" name="username" />
         </label>
         <label>
           Password
-          <input type="password" name="password" required />
+          <input type="password" name="password" />
         </label>
         <button type="submit">Register</button>
         {error && <output>{error}</output>}
       </form>
-      <a onClick={() => setPage("login")}>Log In</a>
+      <p>
+        <Link to="/login">Log in here</Link>
+      </p>
     </>
   );
 }
